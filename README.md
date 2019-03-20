@@ -18,7 +18,7 @@
 | 多层感知机MLP             | [从0到1：神经网络实现图像识别（感知机）](https://zhuanlan.zhihu.com/p/39172441) |
 | 全连接神经网络FCN         | [从0到1：神经网络实现图像识别（多分类反向传播）](https://zhuanlan.zhihu.com/p/39689565) |
 | 卷积神经网络CNN           | [从0到1：实现卷积神经网络（基础篇）](https://zhuanlan.zhihu.com/p/40211372)、 [（算法篇）](https://zhuanlan.zhihu.com/p/45590146)、[(实现篇)](https://zhuanlan.zhihu.com/p/49205794) |
-| 循环神经网络(Vanilla RNN) | 从0到1：实现循环神经网络Vanilla RNN                          |
+| 循环神经网络(Vanilla RNN) | [从0到1：实现循环神经网络Vanilla RNN](https://zhuanlan.zhihu.com/p/59843755) |
 | 长短时记忆网络(LSTM)      | 整理中                                                       |
 | 门控循环神经网络(GRU)     | 整理中                                                       |
 | 批量规范化 Batch Norm     | [从0到1：批量规范化Batch Normalization(原理篇)](https://zhuanlan.zhihu.com/p/52736691)、[(实现篇)](https://zhuanlan.zhihu.com/p/57847763) |

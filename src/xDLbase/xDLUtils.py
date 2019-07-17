@@ -58,17 +58,27 @@ class Tools:
     # 限制上界避免除零错
     @staticmethod
     def crossEntropy(y,y_):
+        n = len(y)
+        return np.sum(-np.log(np.clip(y[range(n), y_],1e-10,None,None)))/n
+
+    @staticmethod
+    def crossEntropylogit(y,y_):
         return -np.log(np.clip(y[range(len(y)), y_],1e-10,None,None))
+
+    # def crossEntropy(y,y_,eps):
+    #     return -np.log(np.clip(y[range(len(y)), y_],eps,None,None))
 
     # 平方误差损失
     @staticmethod
     def mse(y, y_):
-        return np.mean((y - y_) ** 2, axis=1) / 2
+        return np.mean((y - y_) ** 2, axis=-1) / 2
 
     # sigmoid
     @staticmethod
     def sigmoid(x):
-
+        """
+        A numerically stable version of the logistic sigmoid function.
+        """
         pos_mask = (x >= 0)
         neg_mask = (x < 0)
         z = np.zeros_like(x)
@@ -77,3 +87,62 @@ class Tools:
         top = np.ones_like(x)
         top[neg_mask] = z[neg_mask]
         return top / (1 + z)
+
+    @staticmethod
+    def bp4sigmoid(y):
+        """
+        A numerically stable version of the logistic sigmoid function.
+        """
+        return y * (1 - y)
+
+    @staticmethod
+    def bp4tanh(y):
+        """
+        A numerically stable version of the logistic sigmoid function.
+        """
+        return 1 - y**2
+
+
+    def dropout4rnn(x, p):
+        """
+        input:
+            x:input batch*T*D
+            p: reserve percentage  (0,1], 1 means no dropout
+        return
+            hat_x : dropout on T*D dimention , same shape with x
+            mask  : mask matrix for bp
+        """
+        if p <= 0. or p > 1:
+            raise ValueError('Dropout reserve p must be in interval (0, 1].')
+
+        if p == 1 :
+            return x,None
+
+        mask=np.random.binomial(1,p,x[0].shape)
+        hat_x = (x * mask )/p
+
+        return hat_x,mask
+
+    # 函数：np.linalg.svd(a,full_matrices=1,compute_uv=1)。
+    # 参数：
+    # a是一个形如(M,N)矩阵
+    # full_matrices的取值是为0或者1，默认值为1，这时u的大小为(M,M)，v的大小为(N,N) 。
+    # 否则u的大小为(M,K)，v的大小为(K,N) ，K=min(M,N)。
+    # compute_uv的取值是为0或者1，默认值为1，表示计算u,s,v。为0的时候只计算s。
+    # 返回值：
+    # 总共有三个返回值u,s,v
+    # u大小为(M,M)，s大小为(M,N)，v大小为(N,N)。
+    # A = u*s*v
+    # 其中s是对矩阵a的奇异值分解。s除了对角元素不为0，其他元素都为0，并且对角元素从大到小排列。
+    # s中有n个奇异值，一般排在后面的比较接近0，所以仅保留比较大的r个奇异值。 
+    @staticmethod
+    def initOrthogonal(shape,initRng,dType):
+
+        reShape =  (shape[0], np.prod(shape[1:]))
+        x = np.random.uniform(-1 * initRng, initRng, reShape).astype(dType)
+        # x = np.random.normal(-1 * initRng, initRng, reShape).astype(dType)
+        # x = np.random.normal(0, 1, reShape).astype(dType)
+        u,_,vt= np.linalg.svd(x,full_matrices =False)
+        w = u if u.shape == reShape else vt
+        w = w.reshape(shape)
+        return w

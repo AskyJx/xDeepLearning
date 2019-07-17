@@ -36,7 +36,7 @@ exec_name = os.path.basename(__file__)
 trace_file = trace_file_path + exec_name + ".data"
 
 # 训练数据
-path_minst_unpack = 'Your Data Path'
+path_minst_unpack = 'F:\cwork\Project\TF_py3.6\MNIST_data_unpack'
 
 # General params
 class Params:
@@ -65,7 +65,7 @@ class Params:
     VAL_FREQ = 30  # val per how many batches
     LOG_FREQ = 30  # Log per how many batches
     IMAGE_SIZE = 28
-    IMAGE_CHANNEL = 1  # MINST通道数为1，可支持多通道
+    IMAGE_CHANNEL = 1  # MINST通道数为，可支持多通道
 
     # 设置缺省数值类型
     DTYPE_DEFAULT = np.float32
@@ -206,10 +206,10 @@ def main():
                          Params.POOL2_STRIDES, True, Params.DTYPE_DEFAULT)
 
     fc1 = FCLayer(Params.MINI_BATCH_SIZE, Params.FC1_SIZE_INPUT, Params.FC1_SIZE_OUTPUT, ReLU,
-                  AdamOptimizer, optmParamsAdam, Params.DTYPE_DEFAULT,Params.INIT_W)
+                  AdamOptimizer, optmParamsAdam,False, Params.DTYPE_DEFAULT,Params.INIT_W)
 
     fc2 = FCLayer(Params.MINI_BATCH_SIZE, Params.FC1_SIZE_OUTPUT, Params.TYPE_K, NoAct,
-                  AdamOptimizer, optmParamsAdam, Params.DTYPE_DEFAULT,Params.INIT_W)
+                  AdamOptimizer, optmParamsAdam,False, Params.DTYPE_DEFAULT,Params.INIT_W)
 
     # Without BN
     # cnnLayers = [conv1, pool1, conv2, pool2, fc1, fc2]
